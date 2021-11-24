@@ -1,3 +1,6 @@
+#include <iostream>
+#include <cstdlib>
+
 #include "Window.hpp"
 
 Window::Window(int widgth,int height,const char * title)
