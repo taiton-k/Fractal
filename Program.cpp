@@ -1,6 +1,3 @@
-#include <iostream>
-#include <cstdlib>
-
 #include "Program.hpp"
 
 Program::Program():programObject(glCreateProgram()){

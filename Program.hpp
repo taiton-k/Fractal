@@ -1,5 +1,8 @@
 #pragma once
 
+#include <iostream>
+#include <cstdlib>
+
 #include <GL/glew.h>
 
 
