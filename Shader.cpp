@@ -1,9 +1,9 @@
 #include "Shader.hpp"
 
 
-GLchar **Shader::loadShaderSource(const char *fileName){
+GLchar** Shader::loadShaderSource(const char *fileName){
         if(fileName==NULL){
-                std::cerr << "ファイル名が空です。" << std::endl;
+                std::cerr << "Specified file name is NULL." << std::endl;
                 std::exit(-1);
         }
 
@@ -45,12 +45,13 @@ inline GLvoid Shader::printShaderInfoLog() const {
         GLint shaderInfoLogLength;
         glGetShaderiv(shaderObject,GL_INFO_LOG_LENGTH,&shaderInfoLogLength);
 
-        GLchar *shaderInfoLog;
+        GLchar *shaderInfoLog=nullptr;
         glGetShaderInfoLog(shaderObject,static_cast<GLsizei>(shaderInfoLogLength),NULL,shaderInfoLog);
-        std::cerr << "Shader log: " << shaderInfoLog << std::endl;
+        std::cerr << "Compile error in : " << shaderInfoLog << std::endl;
 }
 
-Shader::Shader(GLenum shaderType,const char *fileName):shaderObject(glCreateShader(shaderType)){
+
+Shader::Shader(const GLenum shaderType,const char *fileName):shaderObject(glCreateShader(shaderType)){
         if(shaderObject==0){
                 std::cerr << "glCreateShader() Failed." << std::endl;
         }
@@ -64,16 +65,17 @@ Shader::Shader(GLenum shaderType,const char *fileName):shaderObject(glCreateShad
                 std::cerr << "Failed to compile the shader source program " << fileName << " ." << std::endl;
 
                 printShaderInfoLog();
+
+                std::exit(-1);
         }
 
         std::cout << "Shader source program " << fileName << " compiled successfully." << std::endl;
 }
 
-
-GLenum Shader::getShaderType() const{
-        GLint params=0;
-        glGetShaderiv(shaderObject,GL_SHADER_TYPE,&params);
-        return static_cast<GLenum>(params);
+GLenum Shader::shaderType() const {
+        GLint shaderType;
+        glGetShaderiv(shaderObject,GL_SHADER_TYPE,&shaderType);
+        return static_cast<GLenum>(shaderType);
 }
 
 Shader::operator GLuint() const{

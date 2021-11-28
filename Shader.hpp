@@ -16,7 +16,7 @@ class Shader{
 
         const GLuint shaderObject;
 
-        GLenum getShaderType() const;
+        inline GLenum shaderType() const;
 
         static GLchar **loadShaderSource(const char *fileName);
 
@@ -27,7 +27,7 @@ class Shader{
 
         public:
 
-        Shader(GLenum shaderType,const char *fileName);
+        Shader(const GLenum shaderType,const char *fileName);
 
         operator GLuint() const;
 
