@@ -16,18 +16,20 @@ class Shader{
 
         const GLuint shaderObject;
 
-        inline GLenum shaderType() const;
+        GLenum shaderType() const;
 
-        static GLchar **loadShaderSource(const char *fileName);
+        GLboolean isShaderCompiledSuccessfully() const;
 
-        inline GLboolean isShaderCompiledSuccessfully() const;
+        GLvoid printShaderInfoLog() const;
 
-        inline GLvoid printShaderInfoLog() const;
+        GLvoid loadShaderSource(const char *fileName,char* &sourcePointer) const;
 
 
         public:
 
         Shader(const GLenum shaderType,const char *fileName);
+
+        GLvoid changeSource(const char *fileName) const;
 
         operator GLuint() const;
 

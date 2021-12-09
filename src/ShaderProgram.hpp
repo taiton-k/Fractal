@@ -16,9 +16,9 @@ class ShaderProgram{
 
         // 関数
 
-        inline GLboolean isProgramLinkedSuccessfully() const;
+        GLboolean isProgramLinkedSuccessfully() const;
 
-        inline GLvoid printProgramInfoLog() const;
+        GLvoid printProgramInfoLog() const;
 
         public:
 
@@ -26,7 +26,9 @@ class ShaderProgram{
 
         ShaderProgram();
 
-        inline GLvoid attachShader(const GLuint &shader) const;
+        operator GLuint () const;
 
-        GLvoid linkProgramObject() const;
+        GLvoid attachShader(const GLuint &shader) const;
+
+        GLvoid link() const;
 };

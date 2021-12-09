@@ -1,19 +1,21 @@
 #include "ShaderProgram.hpp"
 
 
-inline GLboolean ShaderProgram::isProgramLinkedSuccessfully() const {
+GLboolean ShaderProgram::isProgramLinkedSuccessfully() const {
         GLint linkStatus;
         glGetProgramiv(programObject,GL_LINK_STATUS,&linkStatus);
         return static_cast<GLboolean>(linkStatus);
 }
 
-inline GLvoid ShaderProgram::printProgramInfoLog() const {
+GLvoid ShaderProgram::printProgramInfoLog() const {
         GLint programInfoLogLength;
         glGetProgramiv(programObject,GL_INFO_LOG_LENGTH,&programInfoLogLength);
 
-        GLchar *programInfoLog=nullptr;
-        glGetProgramInfoLog(programObject,static_cast<GLsizei>(programInfoLogLength),NULL,programInfoLog);
-        std::cerr << "Link error in : " << programInfoLog << std::endl;
+        if(programInfoLogLength > 0){
+                GLchar programInfoLog[static_cast<size_t>(programInfoLogLength)];
+                glGetProgramInfoLog(programObject,static_cast<GLsizei>(programInfoLogLength),NULL,programInfoLog);
+                std::cerr << "Link error in : " << programInfoLog << std::endl;
+        }
 }
 
 
@@ -24,11 +26,15 @@ ShaderProgram::ShaderProgram():programObject(glCreateProgram()){
         }
 }
 
-inline GLvoid ShaderProgram::attachShader(const GLuint &shader) const {
+ShaderProgram::operator GLuint () const {
+        return programObject;
+}
+
+GLvoid ShaderProgram::attachShader(const GLuint &shader) const {
         glAttachShader(programObject,shader);
 }
 
-GLvoid ShaderProgram::linkProgramObject() const {
+GLvoid ShaderProgram::link() const {
         glLinkProgram(programObject);
 
         if(isProgramLinkedSuccessfully() == GL_FALSE){
